@@ -1,21 +1,43 @@
 <script setup lang="ts">
 import { computed, defineAsyncComponent, nextTick, ref, shallowRef, watch } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useNow } from '@vueuse/core'
 import { ru } from '@nuxt/ui/locale'
 import { usePopupStore } from './store'
 import { HEROICONS } from '../../app/core/constants/heroicons'
+import { getHoursProgressColor } from '../../app/core/utils/progress-color'
 import { formatHoursToHHMMSS, parseRuDuration, isoDurationToRu } from '../../app/core/utils/time'
 import type { Yandex } from '../../app/core/types/api/yandex-tracker/yandex-tracker.entity'
 import type { StopDraft } from '../../app/core/extension/protocol'
 import MyIssuesCard from '../../app/core/components/issues/my-issues-card.vue'
 import TimerStopForm from '../../app/core/components/timer/timer-stop-form.vue'
+import WidgetProgressBar from '../../app/core/components/ui/widget-progress-bar.vue'
 import hat from '../../app/assets/theme/new-year/hat.webp'
 
 const dashboardOrigin = __DASHBOARD_ORIGIN__
 const store = usePopupStore()
-const { state, sessionReady, connected, loading, busy, error, page, sort, issues, totalPages, spentHours } =
-  storeToRefs(store)
+const {
+  state,
+  now,
+  todayHours,
+  sessionReady,
+  connected,
+  loading,
+  busy,
+  error,
+  page,
+  sort,
+  issues,
+  totalPages,
+  spentHours
+} = storeToRefs(store)
+const dayGoal = computed(() => state.value.settings?.hoursInDay ?? 8)
+const todayHoursLabel = computed(() => {
+  if (todayHours.value === undefined) return ''
+  if (todayHours.value === null) return 'Не удалось загрузить'
+  const logged = todayHours.value.toLocaleString('ru')
+  const goal = dayGoal.value ? ` / ${dayGoal.value.toLocaleString('ru')}` : ''
+  return `${logged}${goal} ч`
+})
 const menu = ref(false),
   view = ref<'main' | 'stop' | 'start'>('main')
 const organizationId = ref(''),
@@ -30,7 +52,6 @@ const transitions = ref<Yandex.Transition[]>([]),
 const openedTimerId = ref<string | null>(null),
   filling = ref(false)
 const heading = ref<HTMLElement | null>(null)
-const now = useNow({ interval: 1000 })
 const displayTime = computed(() =>
   formatHoursToHHMMSS(
     state.value.timer ? Math.max(0, (now.value.getTime() - Date.parse(state.value.timer.startedAt)) / 3600000) : 0
@@ -296,6 +317,25 @@ watch(
         />
       </div>
       <template v-else-if="view === 'main'">
+        <div class="shrink-0 space-y-1 px-4 pt-3">
+          <div class="flex justify-between gap-2 text-xs text-muted">
+            <span>Списано сегодня</span>
+            <span
+              class="tabular-nums"
+              role="status"
+            >
+              <span :class="{ 'sr-only': !todayHoursLabel }">{{ todayHoursLabel || 'Загрузка' }}</span>
+            </span>
+          </div>
+          <widget-progress-bar
+            v-if="dayGoal && todayHours !== null"
+            :value="todayHours === undefined ? null : Math.min(todayHours, dayGoal)"
+            :max="dayGoal"
+            :loading="todayHours === undefined"
+            :color="getHoursProgressColor(todayHours ?? 0, dayGoal)"
+            aria-hidden="true"
+          />
+        </div>
         <div class="flex shrink-0 items-center justify-between gap-2 p-4">
           <u-badge
             v-if="state.timer"

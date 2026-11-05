@@ -52,6 +52,19 @@ export class TrackerApi {
   profile() {
     return this.request<YandexInfo.Avatar>('/profile/info?format=json')
   }
+  async worklogs(login: string, start: { from: string; to: string }) {
+    const worklogs: Yandex.Worklog[] = []
+    let totalPages = 1
+    for (let page = 1; page <= totalPages; page++) {
+      const response = await this.raw<Yandex.Worklog[]>(`/tracker/worklog/_search?perPage=100&page=${page}`, 'POST', {
+        createdBy: login,
+        start
+      })
+      worklogs.push(...response.data)
+      totalPages = Number(response.headers.get('X-Total-Pages') || '1')
+    }
+    return worklogs
+  }
   issue(key: string) {
     return this.request<Yandex.Issue>(`/tracker/issues/${encodeURIComponent(key)}`)
   }

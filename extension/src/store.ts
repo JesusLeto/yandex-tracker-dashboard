@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, onScopeDispose, ref, shallowRef, watch } from 'vue'
+import { useNow } from '@vueuse/core'
+import { formatInTimeZone } from 'date-fns-tz'
 import {
   createExtensionClient,
   isRecord,
@@ -10,6 +12,9 @@ import {
 } from '../../app/core/extension/protocol'
 import type { IssuesSortMode } from '../../app/core/utils/my-issues'
 import type { Yandex } from '../../app/core/types/api/yandex-tracker/yandex-tracker.entity'
+import { DEFAULT_TIME_ZONE } from '../../app/modules/settings/models/constants/time-zone'
+
+type ExtensionClient = ReturnType<typeof createExtensionClient>
 
 const emptyState = (): ExtensionState => ({
   authenticated: false,
@@ -24,6 +29,10 @@ const emptyState = (): ExtensionState => ({
 
 export const usePopupStore = defineStore('extension-popup', () => {
   const state = shallowRef<ExtensionState>(emptyState())
+  const now = useNow({ interval: 1000 })
+  const timeZone = computed(() => state.value.settings?.timeZone ?? DEFAULT_TIME_ZONE.id)
+  const today = computed(() => formatInTimeZone(now.value, timeZone.value, 'yyyy-MM-dd'))
+  const todayHours = ref<number | null>()
   const sessionReady = ref(false)
   const connected = ref(false),
     loading = ref(true),
@@ -34,7 +43,8 @@ export const usePopupStore = defineStore('extension-popup', () => {
   const issues = ref<Yandex.Issue[]>([]),
     totalPages = ref(1),
     spentHours = shallowRef(new Map<string, number>())
-  let client: ReturnType<typeof createExtensionClient> | null = null
+  let client: ExtensionClient | null = null
+  const boundClient = shallowRef<ExtensionClient | null>(null)
   let reconnect: ReturnType<typeof setTimeout> | undefined
   let authGeneration = 0,
     fetchGeneration = 0,
@@ -54,6 +64,7 @@ export const usePopupStore = defineStore('extension-popup', () => {
     if (!allowUpdates && value.authenticated) return
     const previous = state.value
     state.value = value
+    boundClient.value = client
     sessionReady.value = true
     if (previous.owner !== value.owner) recentlyExcluded.clear()
     else if (value.owner) {
@@ -81,6 +92,7 @@ export const usePopupStore = defineStore('extension-popup', () => {
     const activeClient = createExtensionClient(port, receive, () => {
       if (client !== activeClient) return
       connected.value = false
+      boundClient.value = null
       reconnect = setTimeout(connect, 1000)
     })
     client = activeClient
@@ -178,6 +190,24 @@ export const usePopupStore = defineStore('extension-popup', () => {
   }
 
   watch(
+    [boundClient, () => state.value.owner, timeZone, today, () => state.value.receipt?.worklog.id],
+    async ([activeClient, owner], _previous, onCleanup) => {
+      todayHours.value = undefined
+      if (!owner || !activeClient) return
+      let active = true
+      onCleanup(() => {
+        active = false
+      })
+      try {
+        const hours = await activeClient.request({ type: 'today-hours' })
+        if (active) todayHours.value = hours
+      } catch {
+        if (active) todayHours.value = null
+      }
+    }
+  )
+
+  watch(
     [
       () => state.value.owner,
       () => JSON.stringify(state.value.settings?.myIssues),
@@ -200,6 +230,8 @@ export const usePopupStore = defineStore('extension-popup', () => {
   })
   return {
     state,
+    now,
+    todayHours,
     sessionReady,
     connected,
     loading,

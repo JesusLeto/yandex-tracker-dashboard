@@ -180,18 +180,7 @@ export class TimerCoordinator {
   async reconcile(record: UserTimer, save: () => Promise<void>, api: TrackerApi, login: string): Promise<void> {
     if (!record.pending || !record.timer) return
     const payload = record.pending.payload
-    const worklogs: Yandex.Worklog[] = []
-    let page = 1,
-      totalPages = 1
-    do {
-      const response = await api.raw<Yandex.Worklog[]>(`/tracker/worklog/_search?perPage=100&page=${page}`, 'POST', {
-        createdBy: login,
-        start: { from: payload.start, to: new Date().toISOString() }
-      })
-      worklogs.push(...response.data)
-      totalPages = Number(response.headers.get('X-Total-Pages') || '1')
-      page++
-    } while (page <= totalPages)
+    const worklogs = await api.worklogs(login, { from: payload.start, to: new Date().toISOString() })
     const found = worklogs.filter(
       w =>
         w.issue.key === record.timer?.issueKey &&

@@ -8,6 +8,7 @@ export const PROTOCOL_VERSION = 1
 export interface ExtensionSettings {
   myIssues: { statuses: string[]; roles: IssueRoles; display: IssueDisplay }
   timeZone: string
+  hoursInDay?: number
   colorMode: 'dark' | 'light'
   seasonalTheme: { type?: ThemeType; active: boolean; entities: ThemeEntities }
 }
@@ -60,6 +61,7 @@ export type ExtensionCommand =
   | { type: 'login'; organizationId?: string }
   | { type: 'logout' }
   | { type: 'settings'; settings: ExtensionSettings }
+  | { type: 'today-hours' }
   | { type: 'issues'; page: number; sort: IssuesSortMode }
   | { type: 'transitions'; issueKey: string }
   | { type: 'start'; issueKey: string; transition: boolean; estimation?: string }
@@ -75,6 +77,7 @@ export interface ExtensionResults {
   login: ExtensionState
   logout: ExtensionState
   settings: ExtensionState
+  'today-hours': number
   issues: IssuePage
   transitions: Yandex.Transition[]
   start: ExtensionState
@@ -164,6 +167,8 @@ export function isExtensionSettings(value: unknown): value is ExtensionSettings 
     ['assignee', 'reviewer', 'qaEngineer'].every(role => typeof roles[role] === 'boolean') &&
     Object.values(display).every(flag => typeof flag === 'boolean') &&
     text(value.timeZone, 128) &&
+    (value.hoursInDay === undefined ||
+      (typeof value.hoursInDay === 'number' && Number.isFinite(value.hoursInDay) && value.hoursInDay >= 0)) &&
     (value.colorMode === 'dark' || value.colorMode === 'light') &&
     (seasonalTheme.type === undefined ||
       ['halloween', 'new-year', 'programmer-day', '8-march'].includes(String(seasonalTheme.type))) &&
@@ -189,6 +194,7 @@ export function isExtensionRequest(value: unknown): value is ExtensionRequest {
       return isExtensionSettings(c.settings)
     case 'state':
     case 'logout':
+    case 'today-hours':
       return true
     case 'login':
       return (

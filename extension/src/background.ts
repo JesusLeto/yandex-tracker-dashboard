@@ -1,8 +1,11 @@
+import { parseISO } from 'date-fns'
+import { formatInTimeZone, fromZonedTime } from 'date-fns-tz'
 import type { Yandex } from '../../app/core/types/api/yandex-tracker/yandex-tracker.entity'
 import type { ExtensionCommand, ExtensionState, IssuePage } from '../../app/core/extension/protocol'
 import { isExtensionRequest } from '../../app/core/extension/protocol'
 import { buildFetchQuery, getIssuesOrderParam } from '../../app/core/utils/my-issues'
 import { calculateTotalHours, formatHoursToFixed } from '../../app/core/utils/time'
+import { DEFAULT_TIME_ZONE } from '../../app/modules/settings/models/constants/time-zone'
 import { ApiError, TrackerApi } from './api'
 import { login, logout, readCredentials, saveCredentials } from './auth'
 import { TimerCoordinator, type UserTimer } from './timer'
@@ -135,6 +138,23 @@ async function handle(connection: Connection, command: ExtensionCommand): Promis
   if (!binding) {
     if (command.type === 'state') return emptyState()
     throw new Error('Войдите через Яндекс')
+  }
+  if (command.type === 'today-hours') {
+    if (connection.external) throw new Error('Недопустимая команда')
+    const timeZone = await coordinator.run(
+      binding.owner,
+      async record => record.settings?.timeZone ?? DEFAULT_TIME_ZONE.id
+    )
+    const day = formatInTimeZone(new Date(), timeZone, 'yyyy-MM-dd')
+    const from = fromZonedTime(`${day}T00:00:00.000`, timeZone)
+    const to = fromZonedTime(`${day}T23:59:59.999`, timeZone)
+    const worklogs = await binding.api.worklogs(binding.user.login, { from: from.toISOString(), to: to.toISOString() })
+    const unique = new Map(worklogs.map(worklog => [worklog.id, worklog]))
+    const today = [...unique.values()].filter(worklog => {
+      const start = parseISO(worklog.start)
+      return start >= from && start <= to
+    })
+    return formatHoursToFixed(calculateTotalHours(today))
   }
   return coordinator.run(binding.owner, async (record, save) => {
     let notice: string | undefined

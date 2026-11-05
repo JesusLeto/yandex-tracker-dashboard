@@ -35,6 +35,7 @@ export default defineNuxtPlugin({
         display: { ...settings.myIssues.display }
       },
       timeZone: tz.value,
+      hoursInDay: settings.hoursInDay,
       colorMode: colorMode.value === 'light' ? 'light' : 'dark',
       seasonalTheme: {
         type: settings.themeType,
