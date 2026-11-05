@@ -13,6 +13,7 @@ const modelValue = defineModel<number>({ default: 0 })
     <u-input
       v-model.number="modelValue"
       type="number"
+      :aria-label="label"
       :min="min"
       :max="max"
       :ui="{ base: 'text-center font-mono text-xl font-bold tabular-nums' }"

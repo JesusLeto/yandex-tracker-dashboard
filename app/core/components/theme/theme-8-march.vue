@@ -2,13 +2,15 @@
 import flower from '~/assets/theme/8-march/flower.gif'
 import whiteCat from '~/assets/theme/8-march/white-cat.gif'
 import sleepyRabbit from '~/assets/theme/8-march/sleepy-rabbit.gif'
-import { useSiteSettingsStore } from '~/modules/settings'
+import { computed, onMounted, ref } from 'vue'
+import type { ThemeEntities } from '~/core/types'
 import { useFallingParticles } from '~/core/composables/use-falling-particles'
 import { useResponsiveCount } from '~/core/composables/use-responsive-count'
 import { useThemeCursor } from '~/core/composables/use-theme-cursor'
 import ThemeFallingOverlay from './theme-falling-overlay.vue'
 
-const { themeEntities } = storeToRefs(useSiteSettingsStore())
+const props = defineProps<{ entities: ThemeEntities }>()
+const themeEntities = computed(() => props.entities)
 
 const show = ref(false)
 

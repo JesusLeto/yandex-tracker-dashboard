@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { useNow } from '@vueuse/core'
 import { useModal } from 'vue-final-modal'
-import { useTimerStore } from '~/core/store/use-timer-store'
+import { useTaskTimerStore } from '~/core/store/use-task-timer-store'
 import { formatHoursToHHMMSS } from '~/core/utils/time'
 import { HEROICONS } from '~/core/constants/heroicons'
 import { useIssueTransitionModal } from '~/core/composables/use-issue-transition-modal'
 import type { Yandex } from '~/core/types/api/yandex-tracker/yandex-tracker.entity'
 
-const timerStore = useTimerStore()
-const { isRunning, issueKey, startedAt } = storeToRefs(timerStore)
+const timerStore = useTaskTimerStore()
+const { isRunning, issueKey, startedAt, isBlocked } = storeToRefs(timerStore)
 
 const now = useNow({ interval: 1000 })
 
@@ -40,7 +40,13 @@ const handleStop = () => {
 </script>
 
 <template>
-  <div class="flex items-center gap-1">
+  <div class="flex flex-col gap-1">
+    <p
+      v-if="isBlocked"
+      class="text-xs text-warning"
+    >
+      Нет связи с расширением
+    </p>
     <div class="flex w-full items-center justify-between">
       <template v-if="isRunning">
         <u-badge
@@ -63,6 +69,7 @@ const handleStop = () => {
             variant="ghost"
             color="error"
             square
+            :disabled="isBlocked"
             @click="handleStop"
           />
         </u-tooltip>
@@ -78,6 +85,7 @@ const handleStop = () => {
             :icon="HEROICONS.PLAY_CIRCLE"
             variant="ghost"
             square
+            :disabled="isBlocked"
             @click="openIssueModal()"
           />
         </u-tooltip>

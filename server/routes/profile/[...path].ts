@@ -8,6 +8,6 @@ export default defineEventHandler(async (event: H3Event) => {
   const fullPath = `${path}${url.search}`
 
   return proxyRequest(event, `${target}${fullPath}`, {
-    headers: getRequestHeaders(event)
+    headers: { ...getRequestHeaders(event), cookie: '' }
   })
 })

@@ -7,7 +7,7 @@ export default defineEventHandler(async (event: H3Event) => {
   const path = url.pathname.replace(/^\/tracker/, '')
   const fullPath = `${path}${url.search}`
 
-  const headers = getRequestHeaders(event)
+  const headers = { ...getRequestHeaders(event), cookie: '' }
   const key = headers.authorization ?? 'anonymous'
 
   return runThrottled(key, () => proxyRequest(event, `${target}${fullPath}`, { headers }))

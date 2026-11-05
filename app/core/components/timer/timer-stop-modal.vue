@@ -1,35 +1,37 @@
 <script setup lang="ts">
 import ModalBase from '~/core/components/modal/modal-base.vue'
-import UiCard from '~/core/components/ui/ui-card.vue'
-import UiDurationInput from '~/core/components/ui/form/ui-duration-input.vue'
-import { useTimerStore } from '~/core/store/use-timer-store'
+import TimerStopForm from './timer-stop-form.vue'
+import { useTaskTimerStore } from '~/core/store/use-task-timer-store'
 import yandexTrackerApi from '~/core/api/yandex-tracker.api'
 import { useIssueBus } from '~/core/composables/use-issue-bus'
-import { HEROICONS } from '~/core/constants/heroicons'
+import { onBeforeUnmount } from 'vue'
 import type { Yandex } from '~/core/types/api/yandex-tracker/yandex-tracker.entity'
 
 const props = defineProps<{ frozenSeconds: number }>()
 const modelValue = defineModel<boolean>({ default: false })
 const toast = useToast()
 
-const timerStore = useTimerStore()
-const { issueKey, issueSummary, isSaving, isRunning } = storeToRefs(timerStore)
+const timerStore = useTaskTimerStore()
+const { issueKey, issueSummary, isSaving, isRunning, isShared, isBlocked, uncertain, canRetry } =
+  storeToRefs(timerStore)
 
-const comment = ref('')
+const initialSessionId = timerStore.sessionId
+const savedDraft = timerStore.draft?.timerId === initialSessionId ? timerStore.draft : null
+const comment = ref(savedDraft?.comment ?? '')
 const totalSeconds = ref(0)
 
 watch(
   () => props.frozenSeconds,
   val => {
-    totalSeconds.value = val
+    totalSeconds.value = savedDraft?.seconds ?? val
   },
   { immediate: true }
 )
 
 const transitions = ref<Yandex.Transition[]>([])
 const isLoadingTransitions = ref(false)
-const withTransition = ref(false)
-const selectedTransitionId = ref<string>()
+const withTransition = ref(savedDraft?.withTransition ?? false)
+const selectedTransitionId = ref<string | undefined>(savedDraft?.transitionId ?? undefined)
 const isTransitioning = ref(false)
 
 const transitionOptions = computed(() => transitions.value.map(t => ({ label: t.to.display, value: t.id })))
@@ -40,7 +42,9 @@ const fetchTransitions = async () => {
   isLoadingTransitions.value = true
   try {
     transitions.value = (await yandexTrackerApi.issueTransitionsList(issueKey.value)) ?? []
-    selectedTransitionId.value = transitions.value[0]?.id ?? undefined
+    selectedTransitionId.value = transitions.value.some(t => t.id === selectedTransitionId.value)
+      ? selectedTransitionId.value
+      : transitions.value[0]?.id
   } catch {
     toast.add({ title: 'Не удалось загрузить доступные переходы', color: 'warning' })
   } finally {
@@ -52,10 +56,15 @@ onMounted(fetchTransitions)
 
 const confirm = async () => {
   const savedIssueKey = issueKey.value
-  await timerStore.stop(comment.value || undefined, totalSeconds.value)
+  await timerStore.stop(
+    comment.value || undefined,
+    totalSeconds.value,
+    isShared.value && withTransition.value ? selectedTransitionId.value : undefined,
+    initialSessionId
+  )
   if (isRunning.value || !savedIssueKey) return
 
-  if (withTransition.value && selectedTransitionId.value) {
+  if (!isShared.value && withTransition.value && selectedTransitionId.value) {
     const transition = transitions.value.find(t => t.id === selectedTransitionId.value)
     if (transition) {
       isTransitioning.value = true
@@ -77,10 +86,29 @@ const confirm = async () => {
   modelValue.value = false
 }
 
-const discard = () => {
-  timerStore.reset()
-  modelValue.value = false
+const discard = async () => {
+  await timerStore.reset()
+  if (!isRunning.value) modelValue.value = false
 }
+
+const persistDraft = () => {
+  if (!initialSessionId || !Number.isSafeInteger(totalSeconds.value) || totalSeconds.value < 0) return
+  void timerStore.saveDraft({
+    timerId: initialSessionId,
+    seconds: totalSeconds.value,
+    comment: comment.value,
+    withTransition: withTransition.value,
+    transitionId: selectedTransitionId.value ?? null
+  })
+}
+watch([totalSeconds, comment, withTransition, selectedTransitionId], persistDraft, { flush: 'sync' })
+onBeforeUnmount(persistDraft)
+watch(
+  () => timerStore.sessionId,
+  value => {
+    if (value !== initialSessionId) modelValue.value = false
+  }
+)
 </script>
 
 <template>
@@ -88,88 +116,23 @@ const discard = () => {
     v-model="modelValue"
     :prevent-close="false"
   >
-    <ui-card class="w-full">
-      <template #header>
-        <div class="text-lg font-semibold">Остановить таймер</div>
-      </template>
-
-      <div class="flex flex-col gap-4">
-        <u-badge
-          variant="subtle"
-          class="flex flex-col items-start rounded-lg px-4 py-3"
-          color="neutral"
-        >
-          <div class="font-mono text-xs text-primary">{{ issueKey }}</div>
-          <div class="mt-0.5 text-sm">{{ issueSummary }}</div>
-          <ui-duration-input
-            v-model="totalSeconds"
-            class="mt-3"
-          />
-        </u-badge>
-
-        <div class="flex flex-col gap-1">
-          <label class="text-sm text-neutral-400">
-            Комментарий
-            <span class="text-neutral-500">(необязательно)</span>
-          </label>
-          <u-textarea
-            v-model="comment"
-            :rows="4"
-            placeholder="Что делали?"
-          />
-        </div>
-
-        <div class="flex flex-col gap-2">
-          <div class="flex items-center justify-between gap-4">
-            <span class="text-sm">Перевести задачу в другой статус</span>
-            <u-switch
-              v-model="withTransition"
-              :disabled="!transitions.length"
-              :loading="isLoadingTransitions"
-              :checked-icon="HEROICONS.CHECK_20_SOLID"
-              :unchecked-icon="HEROICONS.X_MARK_20_SOLID"
-            />
-          </div>
-
-          <template v-if="withTransition">
-            <div
-              v-if="isLoadingTransitions"
-              class="flex justify-center py-2"
-            >
-              <u-icon
-                :name="HEROICONS.ARROW_PATH"
-                class="size-4 animate-spin text-neutral-400"
-              />
-            </div>
-            <u-select
-              v-else
-              v-model="selectedTransitionId"
-              :items="transitionOptions"
-              value-key="value"
-              label-key="label"
-            />
-          </template>
-        </div>
-      </div>
-
-      <template #footer>
-        <div class="flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <u-button
-            variant="ghost"
-            color="neutral"
-            label="Отменить без сохранения"
-            class="w-fit max-sm:ml-auto sm:w-auto"
-            @click="discard"
-          />
-          <u-button
-            :loading="isSaving || isTransitioning"
-            color="error"
-            label="Сохранить и остановить"
-            class="w-fit max-sm:ml-auto sm:w-auto"
-            @click="confirm"
-          />
-        </div>
-      </template>
-    </ui-card>
+    <timer-stop-form
+      v-model:seconds="totalSeconds"
+      v-model:comment="comment"
+      v-model:with-transition="withTransition"
+      v-model:transition-id="selectedTransitionId"
+      :issue-key="issueKey"
+      :issue-summary="issueSummary"
+      :transitions="transitionOptions"
+      :loading-transitions="isLoadingTransitions"
+      :saving="isSaving || isTransitioning"
+      :disabled="isBlocked"
+      :uncertain="uncertain"
+      :can-retry="canRetry"
+      @confirm="confirm"
+      @discard="discard"
+      @reconcile="timerStore.reconcile()"
+      @allow-retry="timerStore.allowRetry()"
+    />
   </modal-base>
 </template>

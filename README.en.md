@@ -65,6 +65,10 @@ Available tags: `latest` (stable), `unstable` (dev build).
 
 ## Configuration
 
+### Chrome extension
+
+Quick access to the shared timer and My Issues widget: [local setup and build](extension/README.md).
+
 ### Authorization
 
 Get your organization ID from the [Yandex Cloud Center](https://center.yandex.cloud/) and sign in via Yandex OAuth.
