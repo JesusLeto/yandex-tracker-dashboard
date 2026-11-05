@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useTimerStore } from '~/core/store/use-timer-store'
+import { useTaskTimerStore } from '~/core/store/use-task-timer-store'
 import { useIssueTransitionModal } from '~/core/composables/use-issue-transition-modal'
 import { HEROICONS } from '~/core/constants/heroicons'
 import type { Yandex } from '~/core/types/api/yandex-tracker/yandex-tracker.entity'
 
 const props = defineProps<{ issue: Yandex.Issue }>()
 
-const { isRunning, issueKey: activeIssueKey } = storeToRefs(useTimerStore())
+const { isRunning, isBlocked, isSaving, issueKey: activeIssueKey } = storeToRefs(useTaskTimerStore())
 const { startWithConfirm } = useIssueTransitionModal()
 
 const isTrackingThisIssue = computed(() => activeIssueKey.value === props.issue.key && isRunning.value)
@@ -26,7 +26,7 @@ const handleStart = () => startWithConfirm(props.issue)
       size="sm"
       square
       :aria-label="label"
-      :disabled="isRunning"
+      :disabled="isRunning || isBlocked || isSaving"
       class="size-fit hover:bg-neutral-500"
       :color="isTrackingThisIssue ? 'success' : 'neutral'"
       @click="handleStart"

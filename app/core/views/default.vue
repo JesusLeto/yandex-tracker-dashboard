@@ -7,7 +7,7 @@ import AppSidebarContent from '~/core/components/app/app-sidebar-content.vue'
 import AppLogo from '~/core/components/app/app-logo.vue'
 import { HEROICONS } from '~/core/constants/heroicons'
 
-const { seasonalTheme } = storeToRefs(useSiteSettingsStore())
+const { seasonalTheme, themeEntities } = storeToRefs(useSiteSettingsStore())
 const { isLoading: isLoadingMySelf } = storeToRefs(useAuthStore())
 
 const seasonalThemeComponent = computed(() => {
@@ -38,6 +38,7 @@ watch(route, () => closeSidebar())
   <component
     :is="seasonalThemeComponent"
     v-if="seasonalTheme.active && !isLoadingMySelf"
+    :entities="themeEntities"
   />
 
   <div

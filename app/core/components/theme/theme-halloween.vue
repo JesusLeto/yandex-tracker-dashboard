@@ -2,12 +2,14 @@
 import bat from '~/assets/theme/halloween/bat.gif'
 import ghost from '~/assets/theme/halloween/ghost.gif'
 import pumpkin from '~/assets/theme/halloween/pumpkin.gif'
-import { useSiteSettingsStore } from '~/modules/settings'
+import { computed, onMounted, ref, watch } from 'vue'
+import type { ThemeEntities } from '~/core/types'
 import { useResponsiveCount } from '~/core/composables/use-responsive-count'
 import { useThemeCursor } from '~/core/composables/use-theme-cursor'
 import ThemeBgAccent from './theme-bg-accent.vue'
 
-const { themeEntities } = storeToRefs(useSiteSettingsStore())
+const props = defineProps<{ entities: ThemeEntities }>()
+const themeEntities = computed(() => props.entities)
 
 interface Flyer {
   id: number

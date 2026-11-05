@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="ru" data-theme="dark">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chrome extension — макет</title>
+<style>
+/* Palette is embedded from the project's main.css below. This file is a visual prototype. */
+:root {
+  --ui-color-primary-50: #f4f5ff;
+  --ui-color-primary-100: #e5e8ff;
+  --ui-color-primary-200: #d3d9ff;
+  --ui-color-primary-300: #bcc5ff;
+  --ui-color-primary-400: #9da7fa;
+  --ui-color-primary-500: #7c8ff2;
+  --ui-color-primary-600: #6577db;
+  --ui-color-primary-700: #525fbf;
+  --ui-color-primary-800: #414f99;
+  --ui-color-primary-900: #343e77;
+  --ui-color-primary-950: #23294a;
+
+  --ui-color-success-50: #f2fcf6;
+  --ui-color-success-100: #dff8e8;
+  --ui-color-success-200: #c3f0d4;
+  --ui-color-success-300: #a4e4bc;
+  --ui-color-success-400: #7fd7a1;
+  --ui-color-success-500: #63c98c;
+  --ui-color-success-600: #4eaf77;
+  --ui-color-success-700: #3f8f63;
+  --ui-color-success-800: #356f52;
+  --ui-color-success-900: #274d3b;
+  --ui-color-success-950: #1a3226;
+
+  --ui-color-info-50: #f1f9fe;
+  --ui-color-info-100: #dbf1fd;
+  --ui-color-info-200: #b9e4fb;
+  --ui-color-info-300: #8ed2f8;
+  --ui-color-info-400: #5fbaf3;
+  --ui-color-info-500: #3ba3e8;
+  --ui-color-info-600: #2c86cb;
+  --ui-color-info-700: #236ca6;
+  --ui-color-info-800: #1c5484;
+  --ui-color-info-900: #173e63;
+  --ui-color-info-950: #0f273f;
+
+  --ui-color-warning-50: #fffbea;
+  --ui-color-warning-100: #fff5c4;
+  --ui-color-warning-200: #ffe897;
+  --ui-color-warning-300: #ffd96b;
+  --ui-color-warning-400: #ffc44b;
+  --ui-color-warning-500: #ffb038;
+  --ui-color-warning-600: #e8962d;
+  --ui-color-warning-700: #c77928;
+  --ui-color-warning-800: #9f5d23;
+  --ui-color-warning-900: #78461c;
+  --ui-color-warning-950: #472a10;
+
+  --ui-color-error-50: #fff5f6;
+  --ui-color-error-100: #ffe0e3;
+  --ui-color-error-200: #ffc7cb;
+  --ui-color-error-300: #ffa1a8;
+  --ui-color-error-400: #f37a86;
+  --ui-color-error-500: #e95767;
+  --ui-color-error-600: #d34258;
+  --ui-color-error-700: #b53548;
+  --ui-color-error-800: #902b3b;
+  --ui-color-error-900: #6a2230;
+  --ui-color-error-950: #3d141d;
+
+  --ui-color-secondary-50: #faf6ff;
+  --ui-color-secondary-100: #f2e8ff;
+  --ui-color-secondary-200: #e2d1ff;
+  --ui-color-secondary-300: #cdb3ff;
+  --ui-color-secondary-400: #b592fc;
+  --ui-color-secondary-500: #9c73f5;
+  --ui-color-secondary-600: #8358e2;
+  --ui-color-secondary-700: #6b44c2;
+  --ui-color-secondary-800: #56399a;
+  --ui-color-secondary-900: #402b72;
+  --ui-color-secondary-950: #271b48;
+
+  --ui-color-neutral-950: #0b0c0d;
+  --ui-color-neutral-900: #16181a;
+  --ui-color-neutral-800: #1e2023;
+  --ui-color-neutral-700: #30343a;
+  --ui-color-neutral-500: #868c95;
+  --ui-color-neutral-400: #b2b7be;
+  --ui-color-neutral-300: #e0e3e7;
+  --ui-color-neutral-200: #f0f2f4;
+  --ui-color-neutral-100: #f9fafb;
+
+  --ui-color-black-500: #111214;
+  --ui-color-black-700: #262930;
+
+  --ui-container: 1440px;
+ }
+*{box-sizing:border-box}body{margin:0;background:#0b0c0d;color:#e0e3e7;font:14px/1.45 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,textarea,select{font:inherit}button,a,input,textarea,select{-webkit-tap-highlight-color:transparent}button,a,select{cursor:pointer}button{color:inherit}button:disabled{cursor:default;opacity:.36}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--ui-color-primary-400);outline-offset:3px}button{border:0}svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex:none}[hidden]{display:none!important}
+.review{max-width:880px;margin:0 auto;padding:38px 24px}.review h1{font-size:21px;letter-spacing:-.5px;font-weight:600;margin:0 0 6px}.intro{color:#868c95;font-size:13px;margin:0 0 25px}.controls{display:flex;flex-wrap:wrap;gap:12px 20px;margin-bottom:25px}.controls label{display:flex;align-items:center;gap:8px;font-size:12px;color:#b2b7be}.controls select{border:1px solid #30343a;border-radius:6px;background:#16181a;color:#e0e3e7;padding:7px 28px 7px 9px;color-scheme:dark}.stage{display:flex;align-items:flex-start;gap:30px}.caption{max-width:235px;color:#868c95;font-size:12px;padding-top:12px}.caption p{margin:0 0 14px}.caption strong{font-weight:500;color:#b2b7be}.caption code{font:12px ui-monospace,monospace;color:#b2b7be}.outside-message{min-height:35px;font-size:12px;color:#b2b7be;padding-top:14px}
+.popup{--bg:var(--ui-color-neutral-950);--panel:var(--ui-color-neutral-900);--raised:var(--ui-color-neutral-800);--border:var(--ui-color-neutral-700);--text:var(--ui-color-neutral-300);--muted:var(--ui-color-neutral-400);--faint:var(--ui-color-neutral-500);--primary:var(--ui-color-primary-400);--success:var(--ui-color-success-400);--error:var(--ui-color-error-400);position:relative;flex:none;width:380px;max-width:100%;height:590px;overflow:hidden;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:12px;box-shadow:0 16px 60px #0006;font-size:14px;color-scheme:dark;display:flex;flex-direction:column;text-align:left}
+html[data-theme=light] .popup{--bg:var(--ui-color-neutral-100);--panel:#fff;--raised:var(--ui-color-neutral-200);--border:var(--ui-color-neutral-300);--text:var(--ui-color-neutral-800);--muted:var(--ui-color-neutral-500);--faint:#666e78;--primary:var(--ui-color-primary-600);--success:var(--ui-color-success-700);--error:var(--ui-color-error-600);color-scheme:light}
+.profile-header{padding:12px;border-bottom:1px solid var(--border);flex:none}.profile-button{width:100%;height:42px;border-radius:6px;padding:5px 9px;display:flex;align-items:center;gap:9px;text-align:left;background:color-mix(in srgb,var(--primary) 17%,transparent)}.profile-button>span:nth-child(2){flex:1;font-size:14px}.profile-button svg{width:16px;color:var(--muted)}.avatar{display:grid;place-items:center;flex:none;width:32px;height:32px;border-radius:50%;background-color:var(--raised)}.menu{position:absolute;z-index:6;right:12px;top:60px;width:206px;padding:5px;border:1px solid var(--border);border-radius:8px;background:var(--panel);box-shadow:0 8px 24px #0004}.menu button{width:100%;padding:9px 8px;border-radius:5px;background:none;display:flex;align-items:center;gap:8px;text-align:left;font-size:13px}.menu button:hover{background:var(--raised)}.menu button:last-child{border-top:1px solid var(--border);margin-top:4px;padding-top:11px;color:var(--error)}
+.timer-bar{padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:64px;flex:none}.timer-badge{display:flex;gap:7px;align-items:center;border:1px solid var(--border);background:var(--panel);padding:5px 8px;border-radius:6px;white-space:nowrap}.timer-badge time{font:14px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.2px;font-variant-numeric:tabular-nums}.timer-key{font-size:12px}.record-dot{height:8px;width:8px;flex:none;border-radius:100%;background:var(--error)}.icon-button{display:grid;place-items:center;width:32px;height:32px;padding:0;border-radius:6px;background:none;color:var(--muted)}.icon-button:hover:not(:disabled){background:var(--raised)}.stop{color:var(--error)}.idle{color:var(--muted);font-size:13px;font-style:italic}
+.main-pane{display:flex;flex-direction:column;min-height:0;flex:1}.issues-card{margin:0 10px 10px;min-height:0;display:flex;flex:1;flex-direction:column;border:1px solid var(--border);background:var(--panel);border-radius:10px;overflow:hidden;box-shadow:0 3px 8px #0002}.card-header{display:flex;align-items:center;gap:10px;padding:12px;border-bottom:1px solid var(--border);flex:none}.card-header h2{font-size:16px;font-weight:500;flex:1;margin:0;white-space:nowrap}.sort{font-size:11px;width:132px;border:1px solid var(--border);border-radius:6px;padding:4px 5px;background:var(--bg);color:var(--text)}a{color:var(--primary);text-decoration:none}a:hover{text-decoration:underline}.all-link{font-size:12px}.issue-list{flex:1;min-height:0;overflow:auto;padding:4px 12px}.issue-row{display:flex;gap:8px;padding:9px 5px 9px 8px;border-bottom:1px solid var(--border);min-height:69px}.issue-row:last-child{border-bottom:0}.issue-row.active{background:color-mix(in srgb,var(--primary) 9%,transparent)}.issue-content{min-width:0;flex:1}.meta{display:flex;align-items:center;gap:5px;min-height:19px;flex-wrap:wrap}.priority{height:13px;width:12px;color:#5fbaf3}.priority.high{color:#ffc44b}.issue-key{font:11px ui-monospace,SFMono-Regular,monospace}.badge{font-size:10px;line-height:16px;padding:0 4px;border-radius:3px;color:var(--primary);background:color-mix(in srgb,var(--primary) 13%,transparent);border:1px solid color-mix(in srgb,var(--primary) 26%,transparent)}.badge.open{color:#5fbaf3;background:#3ba3e815;border-color:#3ba3e833}.active-dot{background:var(--success);width:7px;height:7px;border-radius:50%;flex:none}.summary{font-size:13px;line-height:19px;margin-top:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.issue-row>.icon-button{width:26px;height:27px;align-self:center;flex:none}.issue-row>.icon-button svg{width:15px;height:15px}.issue-row.active>.icon-button{color:var(--success);opacity:.8}.card-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px;border-top:1px solid var(--border);flex:none;min-height:48px}.pagination{display:flex;align-items:center;gap:3px;font-size:11px;color:var(--muted)}.pagination .icon-button{width:25px;height:28px}.refresh{background:var(--success);color:#0b0c0d}.refresh:hover:not(:disabled){filter:brightness(1.06);background:var(--success)}.state{padding:32px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;min-height:190px;text-align:center;color:var(--muted);font-size:13px}.state svg{width:28px;height:28px;color:var(--faint)}.state p{margin:0}.skeleton{height:61px;border-radius:6px;background:var(--raised);margin:8px 0}.error-inline{padding:9px 10px;border:1px solid color-mix(in srgb,var(--error) 40%,transparent);border-radius:6px;background:color-mix(in srgb,var(--error) 8%,transparent);color:var(--error);font-size:12px;line-height:18px}.form-pane{min-height:0;flex:1;overflow:auto;padding:15px 16px;display:flex;flex-direction:column;gap:15px}.pane-heading{display:flex;align-items:center;justify-content:space-between}.pane-heading h2{margin:0;font-size:17px;font-weight:600}.task-block{border:1px solid var(--border);background:var(--panel);border-radius:8px;padding:12px}.task-block .issue-key{color:var(--primary)}.task-name{font-size:13px;margin:5px 0 12px}.duration{display:flex;align-items:center;gap:7px}.duration label{display:flex;flex:1;flex-direction:column;gap:5px;font-size:11px;color:var(--muted)}.duration input{width:100%;min-width:0;font:18px ui-monospace,SFMono-Regular,monospace;padding:7px;text-align:center;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:5px;font-variant-numeric:tabular-nums}.field-label{display:block;margin-bottom:6px;font-size:13px}.optional{color:var(--faint);font-size:12px}.comment{width:100%;resize:vertical;min-height:74px;max-height:140px;border-radius:6px;border:1px solid var(--border);padding:9px 10px;background:var(--panel);color:var(--text);font-size:13px}.comment::placeholder{color:var(--faint)}.switch-row{display:flex;gap:14px;align-items:center;justify-content:space-between;font-size:12px}.switch{appearance:none;flex:none;height:21px;width:36px;border-radius:20px;background:var(--border);position:relative;cursor:pointer}.switch:before{content:'';display:block;height:15px;width:15px;border-radius:50%;background:#fff;position:absolute;top:3px;left:3px;transition:transform .12s}.switch:checked{background:var(--success)}.switch:checked:before{transform:translateX(15px)}.status-select{margin-top:9px;width:100%;border-radius:6px;border:1px solid var(--border);padding:7px 9px;background:var(--panel);color:var(--text);font-size:13px}.form-actions{margin-top:auto;display:flex;align-items:center;gap:8px;padding-top:5px}.form-actions button{flex:1;min-height:37px;border-radius:6px;padding:8px 6px;font-size:11px;font-weight:500;line-height:16px}.ghost-button{background:none;color:var(--muted);border:1px solid var(--border)!important}.save-button{color:var(--error);background:color-mix(in srgb,var(--error) 12%,transparent);border:1px solid color-mix(in srgb,var(--error) 35%,transparent)!important}.primary-button{background:var(--success);color:#0b0c0d;border-radius:6px;padding:9px 14px;font-size:13px}.auth-pane{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:17px;padding:30px;text-align:center}.brand{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:14px;font-weight:500}.brand img{width:34px;height:34px;border-radius:8px}.auth-pane h2{font-size:20px;margin:0;font-weight:600;letter-spacing:-.3px}.auth-pane p{margin:0;font-size:13px;color:var(--muted);line-height:20px}.yandex-login{display:flex;align-items:center;gap:9px;padding:10px 17px;background:#e95767;color:#fff;border-radius:6px;font-size:13px;margin-top:5px}.yandex-letter{font-size:18px;line-height:18px}.auth-caption{font-size:11px!important;color:var(--faint)!important;margin-top:6px!important}.start-pane p{font-size:13px;line-height:20px;margin:0}.start-actions{display:flex;flex-direction:column;gap:8px;margin-top:auto}.start-actions button{min-height:37px;border-radius:6px;font-size:12px}.toast{position:absolute;z-index:8;bottom:17px;left:17px;right:17px;padding:10px 12px;background:var(--raised);border:1px solid var(--border);border-radius:7px;box-shadow:0 5px 25px #0003;font-size:12px}
+@media(max-width:710px){.review{padding:23px 14px}.stage{flex-direction:column;gap:5px}.caption{max-width:380px}.controls{gap:10px}.popup{width:min(380px,calc(100vw - 28px))}.card-header{gap:7px}.sort{width:124px}}@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<body>
+<svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"><defs>
+<symbol id="icon-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m10 8 6 4-6 4z"/></symbol>
+<symbol id="icon-stop" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><rect x="9" y="9" width="6" height="6" rx=".7"/></symbol>
+<symbol id="icon-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6.5 6.5A8 8 0 0 1 20 12M17.5 17.5A8 8 0 0 1 4 12"/></symbol>
+<symbol id="icon-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+<symbol id="icon-up" viewBox="0 0 24 24"><path d="m6 15 6-6 6 6"/></symbol>
+<symbol id="icon-left" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></symbol>
+<symbol id="icon-right" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+<symbol id="icon-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+<symbol id="icon-external" viewBox="0 0 24 24"><path d="M14 4h6v6m0-6L10 14M10 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-5"/></symbol>
+<symbol id="icon-settings" viewBox="0 0 24 24"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="17" r="2"/></symbol>
+<symbol id="icon-logout" viewBox="0 0 24 24"><path d="M10 4H5v16h5m4-12 4 4-4 4M9 12h10"/></symbol>
+<symbol id="icon-tasks" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2h6v2M9 10h6M9 15h4"/></symbol>
+</defs></svg>
+<main class="review">
+  <h1>Chrome extension</h1>
+  <p class="intro">Кликабельный HTML-макет. Демонстрационные данные, без авторизации и запросов к API.</p>
+  <div class="controls">
+    <label>Состояние <select id="scenario"><option value="running">Таймер запущен</option><option value="idle">Таймер простаивает</option><option value="stop">Форма остановки</option><option value="error">Ошибка сохранения</option><option value="empty">Нет задач</option><option value="loading">Загрузка задач</option><option value="auth">Вход</option></select></label>
+    <label>Тема сайта <select id="theme"><option value="dark">Тёмная</option><option value="light">Светлая</option></select></label>
+  </div>
+  <div class="stage">
+    <section class="popup" aria-label="Макет расширения">
+      <header class="profile-header" id="profileHeader">
+        <button class="profile-button" id="profileButton" aria-haspopup="menu" aria-expanded="false"><span class="avatar" role="img" aria-label="Демонстрационный аватар">П</span><span>Пользователь</span><svg><use href="#icon-down"/></svg></button>
+        <nav class="menu" id="profileMenu" aria-label="Меню профиля" role="menu" hidden>
+          <button role="menuitem" data-link="Dashboard"><svg><use href="#icon-external"/></svg>Открыть Dashboard</button>
+          <button role="menuitem" data-link="Настройки сайта"><svg><use href="#icon-settings"/></svg>Настройки</button>
+          <button role="menuitem" id="logout"><svg><use href="#icon-logout"/></svg>Выйти</button>
+        </nav>
+      </header>
+      <div class="main-pane" id="mainPane">
+        <div class="timer-bar"><div id="timerDisplay"></div><button class="icon-button stop" id="stopButton" aria-label="Остановить таймер" title="Остановить таймер"><svg><use href="#icon-stop"/></svg></button></div>
+        <section class="issues-card" aria-labelledby="issuesTitle">
+          <header class="card-header"><h2 id="issuesTitle">Мои задачи</h2><select class="sort" id="sort" aria-label="Сортировка задач"><option value="priority">По приоритету</option><option value="deadline">По дедлайну</option></select><a href="#all-issues" class="all-link" data-link="Все мои задачи на сайте">Все</a></header>
+          <div class="issue-list" id="issueList" aria-live="polite"></div>
+          <footer class="card-footer"><div class="pagination" id="pagination"><button class="icon-button" id="prev" aria-label="Предыдущая страница"><svg><use href="#icon-left"/></svg></button><span id="pageLabel">1 / 2</span><button class="icon-button" id="next" aria-label="Следующая страница"><svg><use href="#icon-right"/></svg></button></div><button class="icon-button refresh" id="refresh" aria-label="Обновить задачи" title="Обновить задачи"><svg><use href="#icon-refresh"/></svg></button></footer>
+        </section>
+      </div>
+      <form class="form-pane" id="stopPane" hidden>
+        <div class="pane-heading"><h2 tabindex="-1" id="stopTitle">Остановить таймер</h2><button class="icon-button" type="button" id="closeStop" aria-label="Закрыть форму"><svg><use href="#icon-close"/></svg></button></div>
+        <div class="task-block"><div class="issue-key" id="stopKey"></div><div class="task-name" id="stopSummary"></div><div class="duration"><label>Часы<input type="number" id="hours" min="0" max="999" required inputmode="numeric"></label><label>Минуты<input type="number" id="minutes" min="0" max="59" required inputmode="numeric"></label><label>Секунды<input type="number" id="seconds" min="0" max="59" required inputmode="numeric"></label></div></div>
+        <div><label class="field-label" for="comment">Комментарий <span class="optional">(необязательно)</span></label><textarea class="comment" id="comment" rows="3" placeholder="Что делали?"></textarea></div>
+        <div><label class="switch-row" for="withTransition">Перевести задачу в другой статус<input type="checkbox" class="switch" id="withTransition" role="switch"></label><select class="status-select" id="newStatus" aria-label="Новый статус задачи" hidden><option>В работе</option><option>Ревью</option><option>Тестирование</option><option>Закрыта</option></select></div>
+        <div class="error-inline" id="saveError" role="alert" hidden>Не удалось сохранить время. Проверьте соединение и повторите попытку. Таймер и введённые данные сохранены.</div>
+        <div class="form-actions"><button class="ghost-button" type="button" id="discard">Отменить без сохранения</button><button class="save-button" type="submit" id="save">Сохранить и остановить</button></div>
+      </form>
+      <section class="form-pane start-pane" id="startPane" hidden>
+        <div class="pane-heading"><h2 tabindex="-1" id="startTitle">Начать отслеживание</h2><button class="icon-button" id="closeStart" aria-label="Закрыть"><svg><use href="#icon-close"/></svg></button></div>
+        <div class="task-block"><div class="issue-key" id="startKey"></div><div class="task-name" id="startSummary"></div></div>
+        <p>Задача сейчас открыта. Перевести в «В работе» и запустить таймер?</p>
+        <div class="start-actions"><button class="primary-button" id="confirmStart">Перевести и запустить</button><button class="ghost-button" id="startWithoutTransition">Запустить без смены статуса</button></div>
+      </section>
+      <section class="auth-pane" id="authPane" hidden><div class="brand"><img src="data:image/png;base64,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" alt="">Yandex Tracker Dashboard</div><h2>Ваши задачи — под рукой</h2><p>Войдите через Яндекс, чтобы видеть свои задачи и управлять таймером.</p><button class="yandex-login" id="login"><span class="yandex-letter" aria-hidden="true">Я</span>Войти через Яндекс</button><p class="auth-caption">Вход в расширение не меняет сессию сайта.</p></section>
+      <div class="toast" id="toast" role="status" hidden></div>
+    </section>
+    <aside class="caption"><p><strong>380 × 590 px</strong><br>Профиль, текущий таймер, виджет «Мои задачи».</p><p>Нажмите на профиль, остановите таймер или выберите другое состояние сверху.</p><p>После остановки можно запустить задачу из списка. Выход сохраняет работающий таймер; повторный вход возвращает к нему.</p><p>Переключатели над макетом — инструменты просмотра. В расширении тема и настройки берутся с сайта.</p></aside>
+  </div>
+  <div class="outside-message" id="outsideMessage" role="status"></div>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const icon = name => `<svg aria-hidden="true"><use href="#icon-${name}"/></svg>`;
+const issues = [
+  {key:'DEMO-137',summary:'Обновить профиль пользователя и настройки уведомлений',status:'Open',priority:1,deadline:6},
+  {key:'DEMO-134',summary:'Реализовать раздел «Дизайн» для интерактивных макетов',status:'In Progress',priority:1,deadline:2},
+  {key:'DEMO-128',summary:'Обновить фильтры списка задач',status:'Open',priority:2,deadline:1},
+  {key:'DEMO-124',summary:'Проверить адаптивную верстку личного кабинета',status:'In Progress',priority:2,deadline:5},
+  {key:'DEMO-119',summary:'Уточнить отображение статусов в карточке',status:'Open',priority:2,deadline:4},
+  {key:'DEMO-113',summary:'Доработать страницу настроек',status:'Open',priority:2,deadline:7},
+  {key:'DEMO-109',summary:'Обновить подсказки для учёта времени',status:'In Progress',priority:2,deadline:3}
+];
+let timer={key:issues[1].key,summary:issues[1].summary,startedAt:Date.now()-12000};
+let signedIn=true,page=1,view='main',listState='ready',pendingIssue=null,draft=null,simulateFailure=false,toastTimeout;
+const elapsed=()=>timer?Math.max(0,Math.floor((Date.now()-timer.startedAt)/1000)):0;
+function clock(seconds){return [Math.floor(seconds/3600),Math.floor(seconds/60)%60,seconds%60].map(n=>String(n).padStart(2,'0')).join(':')}
+function closeMenu(){ $('profileMenu').hidden=true;$('profileButton').setAttribute('aria-expanded','false') }
+function message(value){$('outsideMessage').textContent=value}
+function toast(value){clearTimeout(toastTimeout);$('toast').textContent=value;$('toast').hidden=false;toastTimeout=setTimeout(()=>{$('toast').hidden=true},2600)}
+function renderTimer(){
+  $('timerDisplay').replaceChildren();
+  if(timer){const badge=document.createElement('div');badge.className='timer-badge';badge.innerHTML='<span class="record-dot" aria-hidden="true"></span><time></time><span class="timer-key"></span>';badge.querySelector('time').textContent=clock(elapsed());badge.querySelector('.timer-key').textContent=timer.key;$('timerDisplay').append(badge)}
+  else{const text=document.createElement('span');text.className='idle';text.textContent='Трекер простаивает';$('timerDisplay').append(text)}
+  $('stopButton').hidden=!timer;
+}
+function renderList(){
+  const list=$('issueList');list.replaceChildren();$('pagination').hidden=listState!=='ready';
+  if(listState==='loading'){for(let i=0;i<5;i++){const skeleton=document.createElement('div');skeleton.className='skeleton';skeleton.setAttribute('aria-label','Загрузка задачи');list.append(skeleton)}return}
+  if(listState==='empty'){list.innerHTML=`<div class="state">${icon('tasks')}<p>Нет активных задач</p></div>`;return}
+  const sorted=[...issues].sort((a,b)=>$('sort').value==='deadline'?a.deadline-b.deadline:a.priority-b.priority);
+  sorted.slice((page-1)*5,page*5).forEach(issue=>{
+    const active=timer?.key===issue.key;
+    const row=document.createElement('article');row.className='issue-row'+(active?' active':'');
+    const content=document.createElement('div');content.className='issue-content';
+    const meta=document.createElement('div');meta.className='meta';
+    meta.innerHTML=`<svg class="priority" aria-label="Приоритет"><use href="#icon-up"/></svg>${active?'<span class="active-dot" title="Активная задача"></span>':''}`;
+    const key=document.createElement('a');key.href='#'+issue.key;key.className='issue-key';key.textContent=issue.key;key.addEventListener('click',e=>{e.preventDefault();message('В расширении откроется задача '+issue.key+' в Яндекс Трекере.')});meta.append(key);
+    const badge=document.createElement('span');badge.className='badge'+(issue.status==='Open'?' open':'');badge.textContent=issue.status;meta.append(badge);
+    const summary=document.createElement('div');summary.className='summary';summary.textContent=issue.summary;content.append(meta,summary);
+    const play=document.createElement('button');play.className='icon-button';play.innerHTML=icon('play');play.disabled=!!timer;play.title=active?'Уже отслеживается':timer?'Сначала остановите текущий таймер':'Начать таймер';play.setAttribute('aria-label',play.title+' '+issue.key);play.addEventListener('click',()=>requestStart(issue));row.append(content,play);list.append(row);
+  });
+  $('prev').disabled=page===1;$('next').disabled=page>=Math.ceil(issues.length/5);$('pageLabel').textContent=page+' / '+Math.ceil(issues.length/5);
+}
+function render(){
+  closeMenu();$('toast').hidden=true;
+  $('profileHeader').hidden=!signedIn;$('mainPane').hidden=!signedIn||view!=='main';$('stopPane').hidden=!signedIn||view!=='stop';$('startPane').hidden=!signedIn||view!=='start';$('authPane').hidden=signedIn;
+  renderTimer();renderList();
+}
+function saveDraft(){if(view==='stop')draft={hours:$('hours').value,minutes:$('minutes').value,seconds:$('seconds').value,comment:$('comment').value,withTransition:$('withTransition').checked,status:$('newStatus').value}}
+function openStop(){
+  if(!timer)return;
+  const seconds=elapsed();view='stop';$('stopKey').textContent=timer.key;$('stopSummary').textContent=timer.summary;
+  $('hours').value=draft?.hours??Math.floor(seconds/3600);$('minutes').value=draft?.minutes??Math.floor(seconds/60)%60;$('seconds').value=draft?.seconds??seconds%60;$('comment').value=draft?.comment??'';$('withTransition').checked=draft?.withTransition??false;$('newStatus').value=draft?.status??'В работе';$('newStatus').hidden=!$('withTransition').checked;$('saveError').hidden=true;render();$('stopTitle').focus();
+}
+function requestStart(issue){
+  if(timer)return;
+  if(issue.status==='Open'){pendingIssue=issue;view='start';$('startKey').textContent=issue.key;$('startSummary').textContent=issue.summary;render();$('startTitle').focus()}
+  else start(issue,false);
+}
+function start(issue,transition){if(timer)return;if(transition)issue.status='In Progress';timer={key:issue.key,summary:issue.summary,startedAt:Date.now()};draft=null;view='main';$('scenario').value='running';render();toast('Таймер запущен')}
+$('profileButton').addEventListener('click',()=>{const menu=$('profileMenu');menu.hidden=!menu.hidden;$('profileButton').setAttribute('aria-expanded',String(!menu.hidden));if(!menu.hidden)menu.querySelector('button').focus()});
+document.addEventListener('click',e=>{if(!$('profileHeader').contains(e.target))closeMenu()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('profileMenu').hidden){closeMenu();$('profileButton').focus()}else if(view==='stop'){saveDraft();view='main';render();$('stopButton').focus()}else if(view==='start'){view='main';render()}}if(e.target.closest('#profileMenu')&&['ArrowDown','ArrowUp'].includes(e.key)){e.preventDefault();const buttons=[...$('profileMenu').querySelectorAll('button')];const current=buttons.indexOf(document.activeElement);buttons[(current+(e.key==='ArrowDown'?1:buttons.length-1))%buttons.length].focus()}});
+document.querySelectorAll('[data-link]').forEach(link=>link.addEventListener('click',e=>{e.preventDefault();closeMenu();message('В расширении откроется: '+link.dataset.link+'. В этом макете переход не выполняется.')}));
+$('stopButton').addEventListener('click',openStop);
+$('closeStop').addEventListener('click',()=>{saveDraft();view='main';render();$('stopButton').focus()});
+$('stopPane').addEventListener('input',saveDraft);
+$('withTransition').addEventListener('change',()=>{$('newStatus').hidden=!$('withTransition').checked;saveDraft()});
+$('stopPane').addEventListener('submit',e=>{e.preventDefault();const total=Number($('hours').value)*3600+Number($('minutes').value)*60+Number($('seconds').value);if(total<=0){$('saveError').textContent='Укажите длительность больше нуля.';$('saveError').hidden=false;return}saveDraft();if(simulateFailure){$('saveError').textContent='Не удалось сохранить время. Проверьте соединение и повторите попытку. Таймер и введённые данные сохранены.';$('saveError').hidden=false;simulateFailure=false;return}const savedKey=timer.key;timer=null;draft=null;view='main';$('scenario').value='idle';render();toast('Время сохранено · '+savedKey)});
+$('discard').addEventListener('click',()=>{timer=null;draft=null;view='main';$('scenario').value='idle';render();toast('Таймер остановлен без сохранения')});
+$('closeStart').addEventListener('click',()=>{view='main';render()});
+$('confirmStart').addEventListener('click',()=>{if(pendingIssue)start(pendingIssue,true)});
+$('startWithoutTransition').addEventListener('click',()=>{if(pendingIssue)start(pendingIssue,false)});
+$('sort').addEventListener('change',()=>{page=1;renderList()});
+$('prev').addEventListener('click',()=>{if(page>1){page--;renderList()}});$('next').addEventListener('click',()=>{if(page<Math.ceil(issues.length/5)){page++;renderList()}});
+$('refresh').addEventListener('click',()=>{listState='loading';renderList();$('refresh').disabled=true;setTimeout(()=>{listState='ready';page=1;renderList();$('refresh').disabled=false;toast('Задачи обновлены')},500)});
+$('logout').addEventListener('click',()=>{saveDraft();signedIn=false;render();message(timer?'Вы вышли из расширения. Общий таймер продолжает работать.':'Вы вышли из расширения. Сессия сайта сохраняется.')});
+$('login').addEventListener('click',()=>{signedIn=true;render();message('В макете вход имитируется. '+(timer?'Работающий таймер восстановлен.':''))});
+$('theme').addEventListener('change',()=>{document.documentElement.dataset.theme=$('theme').value});
+$('scenario').addEventListener('change',()=>{signedIn=true;view='main';page=1;draft=null;simulateFailure=false;listState='ready';timer={key:issues[1].key,summary:issues[1].summary,startedAt:Date.now()-12000};message('');const scenario=$('scenario').value;if(scenario==='idle'||scenario==='empty'||scenario==='loading')timer=null;if(scenario==='empty')listState='empty';if(scenario==='loading')listState='loading';if(scenario==='auth')signedIn=false;render();if(scenario==='stop'||scenario==='error'){openStop();if(scenario==='error'){simulateFailure=true;$('saveError').hidden=false}}});
+setInterval(()=>{if(signedIn&&view==='main')renderTimer()},1000);
+render();
+</script>
+</body>
+</html>

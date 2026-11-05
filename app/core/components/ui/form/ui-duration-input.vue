@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import TimeUnitInput from './time-unit-input.vue'
 
 const props = withDefaults(
