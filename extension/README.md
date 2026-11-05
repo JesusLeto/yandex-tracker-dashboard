@@ -6,8 +6,7 @@ Dashboard. Таймер общий для сайта и расширения в 
 
 ## Настройка и сборка
 
-1. Расширение подключается к [Preview Dashboard](https://yandex-tracker-dashboard-f-git-39cb59-kirills-projects-f861e40e.vercel.app).
-   Используется постоянный адрес Preview-ветки, а не URL отдельной сборки.
+1. Расширение подключается к [Dashboard](https://yandex-tracker-dashboard-fork.vercel.app).
    Адрес, public manifest key и стабильный extension ID находятся в
    [config.json](config.json). При изменении адреса меняйте этот единственный
    источник и пересобирайте сайт и расширение. Для локальной разработки можно
@@ -17,8 +16,7 @@ Dashboard. Таймер общий для сайта и расширения в 
    клиента не нужен и не должен попадать в пакет.
 3. В настройках Yandex OAuth зарегистрируйте Redirect URI:
    `https://iillbhjmnnpdjflfhlmdclakhpjilanp.chromiumapp.org/`.
-   Для входа на сайте зарегистрируйте адрес Dashboard с `/auth` первым callback:
-   сайт использует default redirect, расширение указывает свой callback явно.
+   Для входа на сайте форка добавьте `https://yandex-tracker-dashboard-fork.vercel.app/auth`.
    Используются authorization code, PKCE S256 и state. Клиенту нужны доступы к
    Tracker, профилю и аватару, как для Dashboard. Готовность конкретного client/scopes
    проверяется отдельно на разрешённом тестовом контуре.
@@ -40,13 +38,14 @@ Dashboard. Таймер общий для сайта и расширения в 
 изоляцией backend. Проверки с данными выполняются только на согласованном test
 upstream, без production доступа.
 
-## Vercel Preview
+## Vercel
 
 Fork подключён к проекту `yandex-tracker-dashboard-fork`: framework Nuxt,
 Node 24, установка `pnpm install --frozen-lockfile`, сборка `pnpm build`.
-Для Preview нужен публичный `NUXT_PUBLIC_YANDEX_CLIENT_ID`; OAuth token и client
-secret в настройках Vercel не нужны. Ветки получают Preview через Git integration.
-Для API расширения Preview должен отвечать без Vercel Login: запросы отправляются
+Каждый push в `master` запускает Production deployment через Git integration.
+Для Production и Preview нужен публичный `NUXT_PUBLIC_YANDEX_CLIENT_ID`; OAuth token
+и client secret в настройках Vercel не нужны.
+Для API расширения Dashboard должен отвечать без Vercel Login: запросы отправляются
 без cookies. Доступ к данным Tracker по-прежнему требует пользовательский OAuth token.
 
 ## Поведение
