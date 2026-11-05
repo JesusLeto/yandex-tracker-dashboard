@@ -4,16 +4,21 @@ Popup использует общие CSS, Nuxt UI configuration, строки �
 Dashboard. Таймер общий для сайта и расширения в одном профиле Chrome; его состояние
 координирует MV3 service worker. Дополнительного поиска и миграций старого таймера нет.
 
-## Локальная настройка
+## Настройка и сборка
 
-1. Dashboard должен работать на `http://localhost:3000`. Адрес, public manifest key
-   и стабильный extension ID находятся в [config.json](config.json). При изменении
-   адреса меняйте этот единственный источник и пересобирайте сайт и расширение.
+1. Расширение подключается к [Preview Dashboard](https://yandex-tracker-dashboard-f-git-39cb59-kirills-projects-f861e40e.vercel.app).
+   Используется постоянный адрес Preview-ветки, а не URL отдельной сборки.
+   Адрес, public manifest key и стабильный extension ID находятся в
+   [config.json](config.json). При изменении адреса меняйте этот единственный
+   источник и пересобирайте сайт и расширение. Для локальной разработки можно
+   указать `http://localhost:3000`.
 2. Укажите публичный OAuth client ID через существующий `NUXT_PUBLIC_YANDEX_CLIENT_ID`
    или отдельный `EXTENSION_YANDEX_CLIENT_ID` при сборке расширения. Секретный ключ
    клиента не нужен и не должен попадать в пакет.
 3. В настройках Yandex OAuth зарегистрируйте Redirect URI:
    `https://iillbhjmnnpdjflfhlmdclakhpjilanp.chromiumapp.org/`.
+   Для входа на сайте зарегистрируйте адрес Dashboard с `/auth` первым callback:
+   сайт использует default redirect, расширение указывает свой callback явно.
    Используются authorization code, PKCE S256 и state. Клиенту нужны доступы к
    Tracker, профилю и аватару, как для Dashboard. Готовность конкретного client/scopes
    проверяется отдельно на разрешённом тестовом контуре.
@@ -34,6 +39,15 @@ Dashboard. Таймер общий для сайта и расширения в 
 по умолчанию обращается к настоящему API: локальный адрес frontend не является
 изоляцией backend. Проверки с данными выполняются только на согласованном test
 upstream, без production доступа.
+
+## Vercel Preview
+
+Fork подключён к проекту `yandex-tracker-dashboard-fork`: framework Nuxt,
+Node 24, установка `pnpm install --frozen-lockfile`, сборка `pnpm build`.
+Для Preview нужен публичный `NUXT_PUBLIC_YANDEX_CLIENT_ID`; OAuth token и client
+secret в настройках Vercel не нужны. Ветки получают Preview через Git integration.
+Для API расширения Preview должен отвечать без Vercel Login: запросы отправляются
+без cookies. Доступ к данным Tracker по-прежнему требует пользовательский OAuth token.
 
 ## Поведение
 
