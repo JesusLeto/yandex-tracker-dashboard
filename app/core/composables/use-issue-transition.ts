@@ -1,10 +1,10 @@
 import yandexTrackerApi from '../api/yandex-tracker.api'
 import type { Yandex } from '../types/api/yandex-tracker/yandex-tracker.entity'
-import { useTimerStore } from '../store/use-timer-store'
+import { useTaskTimerStore } from '../store/use-task-timer-store'
 import { useIssueBus } from './use-issue-bus'
 
 export const useIssueTransition = () => {
-  const timerStore = useTimerStore()
+  const timerStore = useTaskTimerStore()
   const toast = useToast()
 
   const isTransitioning = ref(false)
@@ -24,6 +24,15 @@ export const useIssueTransition = () => {
   }
 
   const confirmTransition = async (issue: Yandex.Issue, originalEstimation?: string) => {
+    if (timerStore.isShared) {
+      isTransitioning.value = true
+      try {
+        await timerStore.start(issue.key, issue.summary, true, originalEstimation)
+      } finally {
+        isTransitioning.value = false
+      }
+      return
+    }
     isTransitioning.value = true
     try {
       const transitions = await yandexTrackerApi.issueTransitionsList(issue.key)
@@ -46,7 +55,7 @@ export const useIssueTransition = () => {
     } finally {
       isTransitioning.value = false
     }
-    timerStore.start(issue.key, issue.summary)
+    await timerStore.start(issue.key, issue.summary)
   }
 
   const cancelTransition = (issue: Yandex.Issue) => {

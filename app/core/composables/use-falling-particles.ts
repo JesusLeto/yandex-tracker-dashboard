@@ -1,4 +1,4 @@
-import type { ComputedRef, Ref } from 'vue'
+import { ref, watch, type ComputedRef, type Ref } from 'vue'
 
 export interface FallingParticle {
   id: number

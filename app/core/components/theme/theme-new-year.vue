@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import snowflake from '~/assets/theme/new-year/snowflake.gif'
-import { useSiteSettingsStore } from '~/modules/settings'
+import { computed, onMounted, ref } from 'vue'
+import type { ThemeEntities } from '~/core/types'
 import { useFallingParticles } from '~/core/composables/use-falling-particles'
 import { useResponsiveCount } from '~/core/composables/use-responsive-count'
 import { useThemeCursor } from '~/core/composables/use-theme-cursor'
 import ThemeFallingOverlay from './theme-falling-overlay.vue'
 
-const { themeEntities } = storeToRefs(useSiteSettingsStore())
+const props = defineProps<{ entities: ThemeEntities }>()
+const themeEntities = computed(() => props.entities)
 
 const show = ref(false)
 

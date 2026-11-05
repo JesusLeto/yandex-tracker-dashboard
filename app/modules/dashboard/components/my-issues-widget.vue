@@ -1,114 +1,36 @@
 <script setup lang="ts">
 import { useMyIssuesWidgetStore } from '../store/use-my-issues-widget-store'
-import UiCard from '~/core/components/ui/ui-card.vue'
-import UiEmptyState from '~/core/components/ui/ui-empty-state.vue'
-import WorklogActions from '~/core/components/worklogs/worklog-actions.vue'
-import IssueTimerButton from '~/core/components/issues/issue-timer-button.vue'
-import { HEROICONS } from '~/core/constants/heroicons'
-import { SITEMAP } from '~/core/utils/router/sitemap'
+import MyIssuesCard from '~/core/components/issues/my-issues-card.vue'
 import { useSiteSettingsStore } from '~/modules/settings/store/use-site-settings-store'
-import IssueItem from '~/core/components/issues/issue-item.vue'
-import { MY_ISSUES_SORT_OPTIONS } from '../models/constants/my-issues-sort'
+import { useTaskTimerStore } from '~/core/store/use-task-timer-store'
+import { useDateFormatter } from '~/core/composables/use-date-formatter'
+import { useIssueTransitionModal } from '~/core/composables/use-issue-transition-modal'
+import { SITEMAP } from '~/core/utils/router/sitemap'
 
 const store = useMyIssuesWidgetStore()
 const { issues, issueSpentHoursMap, isLoading, page, totalPages, sortMode } = storeToRefs(store)
-
 const { myIssues } = storeToRefs(useSiteSettingsStore())
-
-const goToPreviousPage = () => {
-  page.value = page.value - 1
-}
-const goToNextPage = () => {
-  page.value = page.value + 1
-}
+const { isRunning, issueKey, isSaving, isBlocked } = storeToRefs(useTaskTimerStore())
+const { tz } = useDateFormatter()
+const { startWithConfirm } = useIssueTransitionModal()
 </script>
-
 <template>
-  <ui-card title="Мои задачи">
-    <template #header>
-      <div class="flex items-center gap-2">
-        <u-select
-          v-model="sortMode"
-          :items="MY_ISSUES_SORT_OPTIONS"
-          value-key="value"
-          label-key="label"
-          size="xs"
-          class="w-36 shrink-0"
-        />
-        <u-link
-          :to="{ name: SITEMAP.myIssues.route.name }"
-          class="text-xs text-primary hover:underline"
-        >
-          Все
-        </u-link>
-      </div>
-    </template>
-
-    <div
-      v-if="isLoading"
-      class="flex flex-col gap-2"
-    >
-      <u-skeleton
-        v-for="i in 5"
-        :key="i"
-        class="h-18 w-full rounded-lg"
-      />
-    </div>
-
-    <ui-empty-state
-      v-else-if="!isLoading && issues.length === 0"
-      title="Нет активных задач"
-    />
-
-    <div
-      v-else
-      class="flex flex-col divide-y divide-default"
-    >
-      <issue-item
-        v-for="issue in issues"
-        :key="issue.key"
-        :issue="issue"
-        :display="myIssues.display"
-        :spent-hours="issueSpentHoursMap.get(issue.key) ?? null"
-      >
-        <template #action>
-          <issue-timer-button :issue="issue" />
-        </template>
-      </issue-item>
-    </div>
-
-    <template #footer>
-      <div class="flex items-center justify-between">
-        <div
-          v-if="totalPages > 1"
-          class="flex items-center gap-1"
-        >
-          <u-button
-            :icon="HEROICONS.ARROW_LEFT"
-            variant="ghost"
-            size="xs"
-            square
-            aria-label="Предыдущая страница"
-            :disabled="page === 1"
-            @click="goToPreviousPage"
-          />
-          <span class="text-xs text-muted">{{ page }} / {{ totalPages }}</span>
-          <u-button
-            :icon="HEROICONS.ARROW_RIGHT"
-            variant="ghost"
-            size="xs"
-            square
-            aria-label="Следующая страница"
-            :disabled="page >= totalPages"
-            @click="goToNextPage"
-          />
-        </div>
-        <worklog-actions
-          class="ml-auto w-fit"
-          :refresh="store.refresh"
-          :loading="isLoading"
-        />
-      </div>
-    </template>
-  </ui-card>
+  <my-issues-card
+    v-model:sort-mode="sortMode"
+    :issues="issues"
+    :loading="isLoading"
+    :page="page"
+    :total-pages="totalPages"
+    :display="myIssues.display"
+    :spent-hours="issueSpentHoursMap"
+    :time-zone="tz"
+    :running="isRunning"
+    :active-issue-key="issueKey"
+    :busy="isSaving || isBlocked"
+    :all-to="{ name: SITEMAP.myIssues.route.name }"
+    @previous="page--"
+    @next="page++"
+    @refresh="store.refresh()"
+    @start="startWithConfirm"
+  />
 </template>

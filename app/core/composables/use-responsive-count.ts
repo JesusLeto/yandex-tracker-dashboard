@@ -1,3 +1,4 @@
+import { computed } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 
 /**

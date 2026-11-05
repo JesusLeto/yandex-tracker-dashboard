@@ -1,11 +1,20 @@
 <script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useMutationObserver } from '@vueuse/core'
 const props = defineProps<{
   light: [string, string, string]
   dark: [string, string, string]
 }>()
 
-const colorMode = useColorMode()
-const colors = computed(() => (colorMode.value === 'dark' ? props.dark : props.light))
+const isDark = ref(typeof document !== 'undefined' && document.documentElement.classList.contains('dark'))
+useMutationObserver(
+  () => (typeof document === 'undefined' ? null : document.documentElement),
+  () => {
+    isDark.value = document.documentElement.classList.contains('dark')
+  },
+  { attributes: true, attributeFilter: ['class'] }
+)
+const colors = computed(() => (isDark.value ? props.dark : props.light))
 
 const backgroundImage = computed(
   () =>
