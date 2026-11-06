@@ -60,9 +60,9 @@ watch(modelValue, open => {
         </u-badge>
 
         <div class="flex flex-col gap-1">
-          <label class="text-sm text-neutral-400">
+          <label class="text-sm text-toned">
             Комментарий
-            <span class="text-neutral-500">(необязательно)</span>
+            <span class="text-muted">(необязательно)</span>
           </label>
           <u-textarea
             v-model="comment"

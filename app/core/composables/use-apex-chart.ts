@@ -31,12 +31,13 @@ export const useApexChart = (
       height: chartHeight.value,
       fontFamily: 'inherit',
       parentHeightOffset: 0,
-      foreColor: '#B0B0B0',
+      foreColor: 'var(--ui-text-toned)',
       zoom: { enabled: false },
       toolbar: { show: false }
     },
     grid: {
       show: true,
+      borderColor: 'var(--ui-border-muted)',
       strokeDashArray: 1,
       xaxis: { lines: { show: false } },
       yaxis: { lines: { show: true } }

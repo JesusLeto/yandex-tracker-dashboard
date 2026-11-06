@@ -15,7 +15,7 @@ const mergedUI = computed(() => {
     header: twMerge('border-b border-default p-3'),
     body: twMerge('px-6 py-4.5', props.ui?.body),
     content: twMerge(
-      'fixed inset-y-0 left-0 flex h-svh w-full transform flex-col bg-default text-default transition-transform duration-300 md:w-60 dark:bg-neutral-900',
+      'fixed inset-y-0 left-0 flex h-svh w-full transform flex-col bg-default text-default transition-transform duration-300 md:w-60',
       props.ui?.content
     )
   }
@@ -37,7 +37,7 @@ function closeWindow() {
     content-transition="vfm-slide-left"
   >
     <div
-      class="flex-col overflow-y-auto overscroll-contain bg-gray-50"
+      class="flex-col overflow-y-auto overscroll-contain"
       :class="mergedUI.content"
     >
       <div

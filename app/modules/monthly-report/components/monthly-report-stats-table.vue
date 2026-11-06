@@ -52,8 +52,7 @@ const secondaryRows = computed(() => {
     name: 'Среднее часов в день',
     value: pluralize(averageHoursByMonth.value, HOURS_PLURALIZE),
     color: averageBadgeColor.value,
-    helpText:
-      'Часы за все дни / количество дней <br><span class="text-xs text-gray-300">* минимум 15 минут в день</span>'
+    helpText: 'Часы за все дни / количество дней <br><span class="text-xs text-toned">* минимум 15 минут в день</span>'
   })
 
   rows.push({

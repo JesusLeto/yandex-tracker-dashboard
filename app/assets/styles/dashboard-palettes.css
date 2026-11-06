@@ -1,0 +1,190 @@
+html.light {
+  --ui-text-dimmed: var(--ui-color-neutral-600);
+  --ui-text-muted: var(--ui-color-neutral-600);
+  --ui-primary: var(--ui-color-primary-700);
+  --ui-secondary: var(--ui-color-secondary-700);
+  --ui-success: var(--ui-color-success-800);
+  --ui-info: var(--ui-color-info-700);
+  --ui-warning: var(--ui-color-warning-800);
+  --ui-error: var(--ui-color-error-700);
+}
+
+html:is(.light, .dark) {
+  --ui-border-accented: var(--ui-color-neutral-500);
+}
+
+html.dark[data-dashboard-theme] {
+  --ui-border: color-mix(in srgb, var(--ui-color-neutral-600) 40%, var(--ui-bg));
+  --ui-border-accented: var(--ui-color-neutral-600);
+
+  background-color: var(--ui-bg);
+}
+
+html.dark[data-dashboard-theme='taiga'] {
+  --ui-color-neutral-900: #1a1c1f;
+  --ui-color-neutral-800: #282d32;
+  --ui-color-neutral-700: #374149;
+  --ui-color-neutral-600: #778693;
+  --ui-color-neutral-500: #a3afba;
+  --ui-color-neutral-400: #b4bfc9;
+  --ui-color-neutral-300: #c6cfd6;
+  --ui-color-neutral-200: #ced6dd;
+  --ui-color-primary-400: #8ed1bb;
+}
+
+html.dark[data-dashboard-theme='amber'] {
+  --ui-color-neutral-900: #141311;
+  --ui-color-neutral-800: #22211f;
+  --ui-color-neutral-700: #3d352b;
+  --ui-color-neutral-600: #8e7b65;
+  --ui-color-neutral-500: #b0a18f;
+  --ui-color-neutral-400: #c5b5a2;
+  --ui-color-neutral-300: #d6c7b6;
+  --ui-color-neutral-200: #dbcfc3;
+  --ui-color-primary-400: #f5c078;
+}
+
+html.dark[data-dashboard-theme='graphite'] {
+  --ui-color-neutral-900: #262626;
+  --ui-color-neutral-800: #2f2f2f;
+  --ui-color-neutral-700: #414141;
+  --ui-color-neutral-600: #848484;
+  --ui-color-neutral-500: #aaa;
+  --ui-color-neutral-400: #bcbcbc;
+  --ui-color-neutral-300: #cacaca;
+  --ui-color-neutral-200: #d1d1d1;
+  --ui-color-primary-400: #c7cbf2;
+}
+
+html.dark[data-dashboard-theme='onyx'] {
+  --ui-color-neutral-900: #141414;
+  --ui-color-neutral-800: #1f1f1f;
+  --ui-color-neutral-700: #242424;
+  --ui-color-neutral-600: #777777;
+  --ui-color-neutral-500: #969696;
+  --ui-color-neutral-400: #a0a0a0;
+  --ui-color-neutral-300: #bcbcbc;
+  --ui-color-neutral-200: #cfcfcf;
+}
+
+html.dark[data-dashboard-theme='lamp'] {
+  --ui-color-neutral-900: #16140f;
+  --ui-color-neutral-800: #26231b;
+  --ui-color-neutral-700: #2c2921;
+  --ui-color-neutral-600: #8a7d70;
+  --ui-color-neutral-500: #a4978b;
+  --ui-color-neutral-400: #b1a497;
+  --ui-color-neutral-300: #c6baaf;
+  --ui-color-neutral-200: #ded0c5;
+}
+
+html.dark[data-dashboard-theme='github-dark'] {
+  --ui-color-neutral-900: #010409;
+  --ui-color-neutral-800: #161b22;
+  --ui-color-neutral-700: #1c2128;
+  --ui-color-neutral-600: #768390;
+  --ui-color-neutral-500: #9aa3ad;
+  --ui-color-neutral-400: #aab4bf;
+  --ui-color-neutral-300: #c9d1d9;
+  --ui-color-neutral-200: #e6edf3;
+}
+
+html.dark[data-dashboard-theme='github-dimmed'] {
+  --ui-color-neutral-900: #22272e;
+  --ui-color-neutral-800: #323942;
+  --ui-color-neutral-700: #343b45;
+  --ui-color-neutral-600: #83909d;
+  --ui-color-neutral-500: #a7b2bf;
+  --ui-color-neutral-400: #aeb9c6;
+  --ui-color-neutral-300: #bfcbd6;
+  --ui-color-neutral-200: #adbac7;
+}
+
+html.dark[data-dashboard-theme='one-dark'] {
+  --ui-color-neutral-900: #1a1e23;
+  --ui-color-neutral-800: #282c34;
+  --ui-color-neutral-700: #2f343d;
+  --ui-color-neutral-600: #7c8595;
+  --ui-color-neutral-500: #99a1b0;
+  --ui-color-neutral-400: #acb4c4;
+  --ui-color-neutral-300: #c0c7d5;
+  --ui-color-neutral-200: #dde2ec;
+}
+
+html.dark[data-dashboard-theme='tokyo-night'] {
+  --ui-color-neutral-900: #1a1b26;
+  --ui-color-neutral-800: #24283b;
+  --ui-color-neutral-700: #292e42;
+  --ui-color-neutral-600: #7c84ad;
+  --ui-color-neutral-500: #9aa4cd;
+  --ui-color-neutral-400: #a0aad2;
+  --ui-color-neutral-300: #a3acd2;
+  --ui-color-neutral-200: #a9b1d6;
+}
+
+html.dark[data-dashboard-theme='gruvbox'] {
+  --ui-color-neutral-900: #282828;
+  --ui-color-neutral-800: #3c3836;
+  --ui-color-neutral-700: #453f3c;
+  --ui-color-neutral-600: #978775;
+  --ui-color-neutral-500: #b8a995;
+  --ui-color-neutral-400: #c6b79f;
+  --ui-color-neutral-300: #d5c4a1;
+  --ui-color-neutral-200: #ebdbb2;
+}
+
+html.dark[data-dashboard-theme='nord'] {
+  --ui-color-neutral-900: #292f3a;
+  --ui-color-neutral-800: #373e4c;
+  --ui-color-neutral-700: #3f4757;
+  --ui-color-neutral-600: #8995a8;
+  --ui-color-neutral-500: #bac3d2;
+  --ui-color-neutral-400: #cad3e0;
+  --ui-color-neutral-300: #e3e8f1;
+  --ui-color-neutral-200: #f5f7fb;
+}
+
+html.dark[data-dashboard-theme]:not(
+    :where([data-dashboard-theme='taiga'], [data-dashboard-theme='amber'], [data-dashboard-theme='graphite'])
+  ) {
+  --ui-primary: #ffce94;
+  --ui-secondary: var(--ui-color-secondary-200);
+  --ui-success: var(--ui-color-success-300);
+  --ui-info: var(--ui-color-info-200);
+  --ui-warning: var(--ui-color-warning-300);
+  --ui-error: var(--ui-color-error-200);
+}
+
+html.light[data-dashboard-theme='white'] {
+  --ui-bg: #f4f4f4;
+  --ui-bg-muted: #fafafa;
+  --ui-bg-elevated: #fff;
+  --ui-bg-accented: #eee;
+  --ui-text: #232323;
+  --ui-text-highlighted: #0d0d0d;
+  --ui-text-toned: #474747;
+  --ui-text-muted: #585858;
+  --ui-text-dimmed: #656565;
+  --ui-border: #d4d4d4;
+  --ui-border-muted: #dedede;
+  --ui-border-accented: #858585;
+  --ui-primary: #803500;
+  --ui-secondary: var(--ui-color-secondary-800);
+  --ui-success: var(--ui-color-success-900);
+  --ui-info: var(--ui-color-info-900);
+  --ui-warning: #693715;
+  --ui-error: var(--ui-color-error-800);
+
+  background-color: var(--ui-bg);
+}
+
+html[data-dashboard-theme] .apexcharts-tooltip.apexcharts-theme-dark {
+  color: var(--ui-text);
+  background: var(--ui-bg-elevated);
+  border: 1px solid var(--ui-border-accented);
+}
+
+html[data-dashboard-theme] .apexcharts-tooltip.apexcharts-theme-dark .apexcharts-tooltip-title {
+  background: var(--ui-bg-accented);
+  border-bottom-color: var(--ui-border);
+}

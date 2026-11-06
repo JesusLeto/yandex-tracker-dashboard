@@ -81,10 +81,10 @@ interface ChevronConfig {
 const chevrons = computed((): ChevronConfig => {
   const w = getPriorityWeight(props.issue)
   const label = props.issue.priority?.display ?? ''
-  if (w === 0) return { icon: HEROICONS.CHEVRON_DOUBLE_UP, color: 'text-red-500', count: 3, tooltip: label }
-  if (w === 1) return { icon: HEROICONS.CHEVRON_UP_20_SOLID, color: 'text-orange-400', count: 2, tooltip: label }
-  if (w === 2) return { icon: HEROICONS.CHEVRON_UP_20_SOLID, color: 'text-blue-400', count: 1, tooltip: label }
-  return { icon: HEROICONS.CHEVRON_DOWN, color: 'text-neutral-500', count: 1, tooltip: label }
+  if (w === 0) return { icon: HEROICONS.CHEVRON_DOUBLE_UP, color: 'text-error', count: 3, tooltip: label }
+  if (w === 1) return { icon: HEROICONS.CHEVRON_UP_20_SOLID, color: 'text-warning', count: 2, tooltip: label }
+  if (w === 2) return { icon: HEROICONS.CHEVRON_UP_20_SOLID, color: 'text-info', count: 1, tooltip: label }
+  return { icon: HEROICONS.CHEVRON_DOWN, color: 'text-muted', count: 1, tooltip: label }
 })
 
 const isActiveIssue = computed(() => props.active)
@@ -199,16 +199,16 @@ const hasMeta = computed(
 
       <div
         v-if="hasMeta"
-        class="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-neutral-500"
+        class="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-muted"
       >
         <span v-if="display.assignee && issue.assignee">
-          <span class="text-neutral-600">Исп:</span> {{ issue.assignee.display }}
+          <span class="text-toned">Исп:</span> {{ issue.assignee.display }}
         </span>
         <span v-if="display.reviewer && issue.reviewer">
-          <span class="text-neutral-600">Ревью:</span> {{ issue.reviewer.display }}
+          <span class="text-toned">Ревью:</span> {{ issue.reviewer.display }}
         </span>
         <span v-if="display.qaEngineer && issue.qaEngineer">
-          <span class="text-neutral-600">QA:</span> {{ issue.qaEngineer.display }}
+          <span class="text-toned">QA:</span> {{ issue.qaEngineer.display }}
         </span>
       </div>
     </div>

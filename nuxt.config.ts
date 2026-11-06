@@ -83,7 +83,7 @@ export default defineNuxtConfig({
     }
   },
 
-  css: ['~/assets/styles/main.css', 'vue-final-modal/style.css'],
+  css: ['~/assets/styles/main.css', '~/assets/styles/dashboard-palettes.css', 'vue-final-modal/style.css'],
 
   piniaPluginPersistedstate: {
     key: `${PREFIX}%id`,

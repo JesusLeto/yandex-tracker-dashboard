@@ -39,11 +39,12 @@ watch(route, () => closeSidebar())
     :is="seasonalThemeComponent"
     v-if="seasonalTheme.active && !isLoadingMySelf"
     :entities="themeEntities"
+    class="z-auto!"
   />
 
   <div
     v-if="!isLoadingMySelf"
-    class="flex h-svh"
+    class="relative flex h-svh"
   >
     <aside class="hidden w-60 shrink-0 flex-col border-r border-default lg:flex lg:h-svh">
       <div class="flex h-14 items-center px-4">

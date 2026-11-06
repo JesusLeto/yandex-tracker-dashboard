@@ -27,7 +27,7 @@ const handleStart = () => startWithConfirm(props.issue)
       square
       :aria-label="label"
       :disabled="isRunning || isBlocked || isSaving"
-      class="size-fit hover:bg-neutral-500"
+      class="size-fit"
       :color="isTrackingThisIssue ? 'success' : 'neutral'"
       @click="handleStart"
     />

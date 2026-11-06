@@ -41,11 +41,11 @@ export const useMonthlyReportStore = defineStore('monthly-report', () => {
     labels: [],
     datasets: [
       {
-        backgroundColor: 'var(--ui-color-success-500)',
-        borderColor: 'var(--ui-color-success-300)',
+        backgroundColor: 'var(--ui-success)',
+        borderColor: 'var(--ui-success)',
         borderWidth: 2,
-        hoverBackgroundColor: 'var(--ui-color-success-500)',
-        hoverBorderColor: 'var(--ui-color-success-300)',
+        hoverBackgroundColor: 'var(--ui-success)',
+        hoverBorderColor: 'var(--ui-success)',
         data: []
       }
     ]
@@ -88,11 +88,11 @@ export const useMonthlyReportStore = defineStore('monthly-report', () => {
       labels: WEEKDAYS.map(day => day.label),
       datasets: [
         {
-          backgroundColor: 'var(--ui-color-primary-500)',
-          borderColor: 'var(--ui-color-primary-500)',
+          backgroundColor: 'var(--ui-primary)',
+          borderColor: 'var(--ui-primary)',
           borderWidth: 0,
-          hoverBackgroundColor: 'var(--ui-color-primary-500)',
-          hoverBorderColor: 'var(--ui-color-primary-500)',
+          hoverBackgroundColor: 'var(--ui-primary)',
+          hoverBorderColor: 'var(--ui-primary)',
           data: WEEKDAYS.map(day => formatHoursToFixed(hoursByWeekday.get(day.name) ?? 0))
         }
       ]

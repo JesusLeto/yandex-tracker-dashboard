@@ -50,14 +50,14 @@ const seconds = computed({
       label="ч"
       :min="0"
     />
-    <span class="mb-6 text-xl font-bold text-neutral-300">:</span>
+    <span class="mb-6 text-xl font-bold text-toned">:</span>
     <time-unit-input
       v-model="minutes"
       label="м"
       :min="0"
       :max="59"
     />
-    <span class="mb-6 text-xl font-bold text-neutral-300">:</span>
+    <span class="mb-6 text-xl font-bold text-toned">:</span>
     <time-unit-input
       v-model="seconds"
       label="с"

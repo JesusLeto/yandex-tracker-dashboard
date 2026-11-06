@@ -17,7 +17,7 @@ const label = computed(() => (props.active ? 'Уже отслеживается'
       square
       :aria-label="label"
       :disabled="running || busy"
-      class="size-fit hover:bg-neutral-500"
+      class="size-fit"
       :color="active ? 'success' : 'neutral'"
       @click="$emit('start')"
     />

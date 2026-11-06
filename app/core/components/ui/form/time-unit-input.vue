@@ -19,6 +19,6 @@ const modelValue = defineModel<number>({ default: 0 })
       :ui="{ base: 'text-center font-mono text-xl font-bold tabular-nums' }"
       class="w-full"
     />
-    <span class="text-xs text-neutral-400 uppercase">{{ label }}</span>
+    <span class="text-xs text-toned uppercase">{{ label }}</span>
   </div>
 </template>

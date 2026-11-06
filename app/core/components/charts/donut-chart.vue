@@ -59,7 +59,8 @@ const chartOptions = computed<ApexOptions>(() => ({
   },
   dataLabels: {
     enabled: true,
-    dropShadow: { enabled: true },
+    style: { colors: ['var(--ui-color-neutral-950)'] },
+    dropShadow: { enabled: false },
     formatter: function (val: number) {
       return `${Math.round(val)}%`
     }
